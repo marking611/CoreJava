@@ -1,6 +1,6 @@
 package com.mak.socket;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -16,34 +16,14 @@ public class SocketServer {
     public static void server() throws IOException {
         //创建服务socket
         ServerSocket serverSocket = new ServerSocket(9999);
-        //调用accept() 开始监听，等待客户端连接
-        Socket socket = serverSocket.accept();
-        //获取输入流，读取客户端信息
-        InputStream is = socket.getInputStream();
-        InputStreamReader isr = new InputStreamReader(is,"utf-8");
-        BufferedReader reader = new BufferedReader(isr);
-        String date = reader.readLine();
-        while (date != null){
-            System.err.println("【服务端】客户端说："+date);
-            date = reader.readLine();
+        while (true){
+            //调用accept() 开始监听，等待客户端连接 [阻塞]
+            Socket socket = serverSocket.accept();
+            ServerThread thread = new ServerThread();
+            thread.socket = socket;
+            thread.start();
         }
-        //关闭输入流
-        socket.shutdownInput();
 
-        //获取输出流，响应客户端请求
-        OutputStream os = socket.getOutputStream();
-        PrintWriter pw = new PrintWriter(os);
-        pw.write("欢迎");
-        pw.flush();
-
-        //关闭资源
-        pw.close();
-        os.close();
-        reader.close();
-        isr.close();
-        is.close();
-        socket.close();
-        serverSocket.close();
     }
 
     public static void main(String[] args) throws IOException {

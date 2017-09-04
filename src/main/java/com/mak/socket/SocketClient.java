@@ -16,7 +16,7 @@ public class SocketClient {
         //获取输出流
         OutputStream os = socket.getOutputStream();
         PrintWriter pw = new PrintWriter(os);
-        pw.write("用户名：admin;密码：123");
+        pw.write("用户名：tom;密码：456");
         pw.flush();
         socket.shutdownOutput();
 
