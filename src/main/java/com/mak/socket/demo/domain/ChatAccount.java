@@ -4,8 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
+ * 帐号
  * Created by makai on 2017/9/14.
  */
 @Entity
@@ -21,6 +23,8 @@ public class ChatAccount {
     private String password;
     @Column(name = "salt")
     private String salt;
+    @Column(name = "register_time")
+    private Date registerTime; //注册时间
 
     public String getId() {
         return id;

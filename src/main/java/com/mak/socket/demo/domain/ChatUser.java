@@ -5,6 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
+ * 用户信息
  * Created by makai on 2017/9/14.
  */
 @Entity
