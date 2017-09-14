@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
@@ -13,9 +15,10 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @Component
 @ServerEndpoint("/websocket")
 public class MyWebSocket {
+    private final String INFO_COLOR = "#2d78f4";
+
     /**
-     * 记录当前在线连接数，
-     * 应该设计成线程安全的
+     * 记录当前在线连接数
      */
     private static int onlineCount = 0;
 
@@ -40,7 +43,7 @@ public class MyWebSocket {
         this.session = session;
         webSocketSet.add(this); //加入set
         addOnlineCount(); //在线人数+1
-        System.out.println("加入一个连接，现在在线人数："+onlineCount);
+        System.out.println("加入一个连接，现在在线人数：" + onlineCount);
     }
 
     /**
@@ -54,28 +57,36 @@ public class MyWebSocket {
 
     /**
      * 发送错误时调用
+     *
      * @param session
      * @param error
      */
     @OnError
-    public void onError(Session session,Throwable error){
+    public void onError(Session session, Throwable error) {
         error.printStackTrace();
+        webSocketSet.remove(session);
     }
 
     /**
      * 接收客户端消息
      *
      * @param message
-     * @param session
      */
     @OnMessage
-    public void onMessage(String message, Session session) {
-        System.out.println("接收到消息:" + message);
-
+    public void onMessage(String message) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        StringBuffer sb = new StringBuffer();
+        sb.append("<font color='"+INFO_COLOR+"'>");
+        sb.append(simpleDateFormat.format(date));
+        sb.append("</font>");
+        sb.append("<br/>");
+        sb.append(message);
+        final String text = sb.toString();
         //群发消息
         webSocketSet.forEach(myWebSocket -> {
             try {
-                sendMessage(message);
+                sendMessage(myWebSocket, text);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -84,24 +95,26 @@ public class MyWebSocket {
 
     /**
      * 发送消息
-     * @param message
+     *
+     * @param text
      * @throws IOException
      */
-    private void sendMessage(String message) throws IOException {
-        this.session.getBasicRemote().sendText(message);
+    private void sendMessage(MyWebSocket webSocket, String text) throws IOException {
+        webSocket.session.getBasicRemote().sendText(text);
+//        webSocket.session.getAsyncRemote().sendText(message);
     }
 
     /**
      * 在线人数自增1 （同步）
      */
-    private synchronized void addOnlineCount(){
+    private synchronized void addOnlineCount() {
         onlineCount++;
     }
 
     /**
      * 在线人数自减1 （同步）
      */
-    private synchronized void subOnlineCount(){
+    private synchronized void subOnlineCount() {
         onlineCount--;
     }
 }
