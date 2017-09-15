@@ -5,8 +5,6 @@ import org.junit.Test;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by makai on 2017/9/8.
@@ -21,40 +19,14 @@ public class SimpleTest {
     }
 
     @Test
-    public void obj(){
-        a a = new a();
-        a.setName("中软");
-        a.setAge(10);
-        System.out.println(a);
-        Map map = new HashMap();
-        map.put("a",a);
-        a aa = (com.mak.a) map.get("a");
-        System.out.println(aa);
-        aa.setName("人民日报");
-        aa.setAge(100);
-        System.out.println(a.equals(aa));
-        System.out.println(a==aa);
-        System.out.println(a.hashCode()==aa.hashCode());
+    public void testFinal(){
+        String a = "h2";
+        final String b = "h";
+        String c = "h";
+        String e = b+2;
+        String f = c+2;
+        System.out.println(a == e);
+        System.out.println(a == f);
     }
 }
 
-class a{
-    String name;
-    int age;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-}
