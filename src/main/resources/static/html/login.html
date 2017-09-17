@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <style type="text/css">
+        tr {
+            text-align: center
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h1 align="center">用户登录</h1>
+    <table align="center" valign="center" border="1px">
+        <tr>
+            <td>帐号</td>
+            <td><input type="text" name="account" placeholder="请输入帐号"></td>
+        </tr>
+        <tr>
+            <td>密码</td>
+            <td><input type="password" name="password" placeholder="请输入密码"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button id="login">登录</button>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+<script>
+    $("#login").click(function () {
+        register();
+    });
+
+    function register() {
+        var account = $("input[name=account]").val();
+        var password = $("input[name=password]").val();
+        if (account.length <= 0) {
+            alert("请输入帐号");
+            return;
+        }
+        if (password.length <= 0) {
+            alert("请输入密码");
+            return;
+        }
+        $.ajax({
+            url : "/core/login",
+            data:{"account":account,"password":password},
+            type:"post",
+            dataType:"json",
+            success:function(data){
+                if (data.status == 200){
+                    //判断是不是已经补全用户信息
+                    if(!data.data) {
+                        window.location.href = "info.html";
+                    }else{
+                        window.location.href = "chat.html";
+                    }
+                }else{
+                    alert(data.message);
+                }
+            }
+        });
+    }
+</script>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户信息</title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <style type="text/css">
+        tr {
+            text-align: center
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h1 align="center">用户信息</h1>
+    <table align="center" valign="center" border="1px">
+        <tr>
+            <td>昵称<span style="color: red;">*</span></td>
+            <td><input type="text" name="nickname" placeholder="请输入昵称"></td>
+        </tr>
+        <tr>
+            <td>真实姓名</td>
+            <td><input type="text" name="name" placeholder="请输入真实姓名"></td>
+        </tr>
+        <tr>
+            <td>性别</td>
+            <td>
+                男<input type="radio" name="sex" value="1" checked>
+                女<input type="radio" name="sex" value="2">
+            </td>
+        </tr>
+        <tr>
+            <td>年龄</td>
+            <td><input type="number" name="age" value="0"></td>
+        </tr>
+        <tr>
+            <td>头像</td>
+            <td><input type="text" name="headimg" placeholder="暂无上传功能，可选择网上的一张图片"></td>
+        </tr>
+        <tr>
+            <td>
+                <button id="commit">确定</button>
+            </td>
+            <td>
+                <button id="reset">重置</button>
+            </td>
+        </tr>
+    </table>
+</div>
+<div style="text-align: center">
+    <img width="240px" height="">
+</div>
+</body>
+<script>
+    detail();
+    function detail(){
+        $.ajax({
+            url:"/core/user/detail",
+            dataType:"json",
+            type:"post",
+            success:function(data){
+                if (data.status == 200){
+                    if (data.data){
+                        var detail = data.data;
+                        $("input[name=nickname]").val(detail.nickname);
+                        $("input[name=name]").val(detail.name);
+                        $("input[name=sex]").val(detail.sex);
+                        $("input[name=age]").val(detail.age);
+                        $("input[name=headimg]").val(detail.headimg);
+                        $("img").attr("src",detail.headimg);
+                    }
+                }else{
+                    alert(data.message);
+                }
+            }
+        });
+    }
+
+
+    $("input[name=headimg]").blur(function(){
+        $("img").attr("src",$(this).val());
+    });
+
+
+    $("#commit").click(function () {
+        commit();
+    });
+
+    $("#reset").click(function(){
+        reset();
+    });
+
+    //提交
+    function commit() {
+        var nickname = $("input[name=nickname]").val();
+        var name = $("input[name=name]").val();
+        var sex = $("input[name=sex]").val();
+        var age = $("input[name=age]").val();
+        var headimg = $("input[name=headimg]").val();
+        if(nickname.length <= 0){
+            alert("请输入昵称");
+            return;
+        }
+        $.ajax({
+            url : "/core/user/info",
+            data:{"nickname":nickname,"name":name,"sex":sex,"age":age,"headimg":headimg},
+            type:"post",
+            dataType:"json",
+            success:function(data){
+                if (data.status == 200){
+                    alert("去聊天室。。。");
+                    window.location.href = "chat.html";
+                }else{
+                    alert(data.message);
+                }
+            }
+        });
+    }
+
+    function reset() {
+        $("input[name=nickname]").val("");
+        $("input[name=name]").val("");
+        $("input[name=sex]").val(1);
+        $("input[name=age]").val(0);
+        $("input[name=headimg]").val("");
+        $("img").attr("src","");
+    }
+
+
+</script>
+</html>

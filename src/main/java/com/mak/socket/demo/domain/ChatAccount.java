@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * 帐号
@@ -23,8 +23,8 @@ public class ChatAccount {
     private String password;
     @Column(name = "salt")
     private String salt;
-    @Column(name = "register_time")
-    private LocalDateTime registerTime; //注册时间
+    @Column(name = "register_time", columnDefinition = "datetime") //指定数据库字段为datetime
+    private Date registerTime; //注册时间
 
     public String getId() {
         return id;
@@ -66,11 +66,11 @@ public class ChatAccount {
         this.salt = salt;
     }
 
-    public LocalDateTime getRegisterTime() {
+    public Date getRegisterTime() {
         return registerTime;
     }
 
-    public void setRegisterTime(LocalDateTime registerTime) {
+    public void setRegisterTime(Date registerTime) {
         this.registerTime = registerTime;
     }
 }
