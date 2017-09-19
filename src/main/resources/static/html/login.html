@@ -3,34 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>登录</title>
-    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
-    <style type="text/css">
-        tr {
-            text-align: center
-        }
-    </style>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/css" src="../layui/css/layui.css"></script>
+    <script>
+        var layer,laypage,laydate,form;
+        //layer和laypage分开用use创建，否则会冲突
+        layui.use(['layer'], function(){
+            layer = layui.layer;
+        });
+        layui.use(['laypage'], function(){
+            laypage = layui.laypage;
+        });
+        //监听提交
+        layui.use(['laydate'], function(){
+            laydate = layui.laydate;
+        });
+        layui.use(['form'],function(){
+            form = layui.form;
+        });
+    </script>
 </head>
 <body>
-<div>
-    <h1 align="center">用户登录</h1>
-    <table align="center" valign="center" border="1px">
-        <tr>
-            <td>帐号</td>
-            <td><input type="text" name="account" placeholder="请输入帐号"></td>
-        </tr>
-        <tr>
-            <td>密码</td>
-            <td><input type="password" name="password" placeholder="请输入密码"></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <button id="login">登录</button>
-            </td>
-        </tr>
-    </table>
+<div class="layui-body">
+    <form class="layui-form" action="" method="post">
+        <div class="layui-form-item">
+            <label class="layui-form-label">帐号</label>
+            <div class="layui-input-block">
+                <input type="text" name="account" required  lay-verify="required" placeholder="请输入帐号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-block">
+                <input type="password" name="password" required  lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+    </form>
+
+    <!--<table align="center" valign="center" border="1px">-->
+        <!--<tr>-->
+            <!--<td>帐号</td>-->
+            <!--<td><input type="text" name="account" placeholder="请输入帐号"></td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td>密码</td>-->
+            <!--<td><input type="password" name="password" placeholder="请输入密码"></td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td colspan="2">-->
+                <!--<button id="login">登录</button>-->
+            <!--</td>-->
+        <!--</tr>-->
+    <!--</table>-->
 </div>
 </body>
 <script>
+    form.reset;
+
+
     $("#login").click(function () {
         register();
     });
