@@ -274,6 +274,14 @@ class Child extends Parent {
     public String name = "Tom";
     public int age = 5;
 
+    static {
+        System.out.println("this is static");
+    }
+
+    {
+        System.out.println("this is low");
+    }
+
     public static void main(String... args) throws Exception {
 //        Class cla = Class.forName("com.mak.Child");
 //        Method[] decMs =  cla.getDeclaredMethods();
@@ -283,8 +291,95 @@ class Child extends Parent {
 //        Field[] fields = cla.getFields();
 //        Field[] declds = cla.getDeclaredFields();
 //        System.out.println();
-        Child child = new Child();
-        child.hobby();
+//        Child child = new Child();
+//        child.hobby();
+        System.out.println();
     }
 }
+
+class NullTest {
+    public static void print() {
+        System.out.println("print");
+    }
+
+    public static void main(String... args) {
+        NullTest test = null;
+//        test.print();
+
+        NullTest test2 = (NullTest) null;
+        test2.print();
+    }
+}
+
+class X {
+
+    public X() {
+        System.out.print("X");
+    }
+
+    Y y = new Y("x");
+}
+
+class Y {
+    public Y(String p) {
+        System.out.print(p);
+    }
+}
+
+class Z extends X {
+
+    public Z() {
+        System.out.print("Z");
+    }
+
+    Y y = new Y("z");
+
+    public static void main(String[] args) {
+        new Z();
+    }
+}
+
+enum AccountType
+{
+    SAVING, FIXED, CURRENT;
+    private AccountType()
+    {
+        System.out.println("It is a account type");
+    }
+}
+class EnumOne
+{
+    public static void main(String[]args) throws ClassNotFoundException {
+        Class.forName("com.mak.AccountType");
+//        System.out.println(AccountType.FIXED);
+    }
+}
+
+class BaseS{
+    private String a = "123";
+    public BaseS(){
+        super();
+        m();
+    }
+    public void m(){
+        System.out.println(a);
+    }
+}
+
+class Sub extends BaseS{
+    private String a = "abc";
+    public Sub() {
+        super();
+    }
+    public void m(){
+        System.out.println(a);
+    }
+
+
+    public static void main(String[] args){
+        BaseS s = new Sub();
+    }
+}
+
+
 
