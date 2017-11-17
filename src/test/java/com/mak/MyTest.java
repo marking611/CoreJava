@@ -114,6 +114,14 @@ public class MyTest {
         }
     }
 
+    @Test
+    public void test09(){
+        short a = 128;
+        byte b = (byte) a;
+        byte c = (byte) 128;
+        System.out.println(c);
+    }
+
 }
 
 class Finalize {
