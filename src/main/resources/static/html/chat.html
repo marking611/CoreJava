@@ -70,7 +70,7 @@
 
     //判断当前浏览器是否支持WebSocket
     if('WebSocket' in window){
-        websocket = new WebSocket("ws://"+_host+"/core/websocket");
+        websocket = new WebSocket("ws://"+_host+"/core/websocket?userId=123");
     } else{
         alert('该浏览器不支持websocket')
     }
