@@ -64,7 +64,7 @@ public class MyWebSocket {
     @OnError
     public void onError(Session session, Throwable error) {
         error.printStackTrace();
-        webSocketSet.remove(session);
+        webSocketSet.remove(this);
     }
 
     /**
