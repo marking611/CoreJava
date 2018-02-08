@@ -3,9 +3,13 @@ package com.mak;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 @SpringBootTest
 public class MyTest2 {
-    
+
     @Test
     public void testFinally() {
         System.out.println(finallyMethod());
@@ -48,27 +52,63 @@ public class MyTest2 {
 
     @Test
     public void testReplace01() {
-        System.out.println("com.mk.".replace(".","/"));
+        System.out.println("com.mk.".replace(".", "/"));
         String classFile = "com.jd.".replaceAll(".", "/");
         System.out.println(classFile);
     }
 
     @Test
-    public void testA(){
+    public void testA() {
         BaseA base = new SubA();
-        base.fun(1,10);
+        base.fun(1, 10);
         SubA sub = new SubA();
-        sub.fun(2,20);
+        sub.fun(2, 20);
+    }
+
+    @Test
+    public void testi1() {
+        int i = 0;
+        i = i++;
+        System.out.println(i);
+    }
+
+    @Test
+    public void testj2() {
+        int i = 0;
+        int j = i++;
+        System.out.println(i);
+    }
+
+    public volatile int a = 0;
+
+    @Test
+    public void testVolatile() throws InterruptedException {
+        for (int i = 0; i < 10; i++) {
+            new Thread(() -> {
+                System.out.println(++a);
+            }).start();
+        }
+        TimeUnit.SECONDS.sleep(1l);
+        System.out.println(a);
+    }
+
+    @Test
+    public void testLambda(){
+        List<Integer> list = Arrays.asList(0,1,2,3,4,5,6,7,8,9);
+        list.forEach(i->{
+            if (i%2 == 0) return;
+            System.out.println(i);
+        });
     }
 }
 
-class BaseA{
-    void fun(int i,int... array){
+class BaseA {
+    void fun(int i, int... array) {
         System.out.println("BaseA");
     }
 }
 
-class SubA extends BaseA{
+class SubA extends BaseA {
 
     @Override
     void fun(int i, int... array) {

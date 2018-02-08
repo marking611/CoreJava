@@ -1,0 +1,9 @@
+编译
+javac a.java
+javac b.java
+javac c.java
+
+反汇编
+javap -c a
+javap -c b
+javap -c c
